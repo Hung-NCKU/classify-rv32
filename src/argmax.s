@@ -23,14 +23,32 @@
 # =================================================================
 argmax:
     li t6, 1
-    blt a1, t6, handle_error
+    blt a1, t6, handle_error #a1= size
 
-    lw t0, 0(a0)
-
-    li t1, 0
-    li t2, 1
-loop_start:
+    lw t0, 0(a0) # t0 = a[0]
+    li t2, 0 #t2 = t = 0
+	li t1, 0 #max
+	
+loop:
+	bge t6, a1, end  
     # TODO: Add your own implementation
+	bge t2,a1,end
+	slli t3,t2,2
+	add t3,a0,t3
+	lw t4,0(t3)
+	ble t4,t0,skip
+	mv t0,t4
+	mv t1,t2
+
+
+	
+skip:
+    addi t2, t2, 1   
+    j loop
+    
+end:
+    mv a0,t1
+    ret    
 
 handle_error:
     li a0, 36

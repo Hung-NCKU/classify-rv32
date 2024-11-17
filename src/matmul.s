@@ -35,7 +35,7 @@
 # =======================================================
 matmul:
     # Error checks
-    li t0 1
+    li t0,1 #compare
     blt a1, t0, error
     blt a2, t0, error
     blt a4, t0, error
@@ -43,9 +43,8 @@ matmul:
     bne a2, a4, error
 
     # Prologue
-    addi sp, sp, -28
+    addi sp, sp, -28 
     sw ra, 0(sp)
-    
     sw s0, 4(sp)
     sw s1, 8(sp)
     sw s2, 12(sp)
@@ -116,6 +115,33 @@ inner_loop_start:
     
 inner_loop_end:
     # TODO: Add your own implementation
+	addi s0, s0, 1 # i++
+    #beq t0, a2, outer_loop_end
+	slli t0,a2,2
+	#mv s0,a0
+    #add s0, s0, t2
+	add s3,s3,t0
+    j outer_loop_start
+
+outer_loop_end:
+
+    # Epilogue
+    #lw s0, 0(sp)
+    #lw s1, 4(sp)
+    #lw s2, 8(sp)
+    #lw s3, 12(sp)
+    #lw s4, 16(sp)
+    #lw s5, 20(sp)
+    #lw s6, 24(sp)
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    lw s1, 8(sp)
+    lw s2, 12(sp)
+    lw s3, 16(sp)
+    lw s4, 20(sp)
+    lw s5, 24(sp)
+    addi sp, sp, 28
+    ret
 
 error:
     li a0, 38

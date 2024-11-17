@@ -166,7 +166,18 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s8)
-    # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    #mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+	
+	li a0, 0           # Initialize a0
+mul_loop:
+    andi t2, t1, 1     # check the lsb of multiplier
+    beqz t2, skip_add  # if lsb is 0 , skip_add
+    add  a0, a0, t0    
+skip_add:    
+    slli t0, t0, 1     # Shift multiplicand left by 1 (multiply by 2 )
+    srli t1, t1, 1     # Shift multiplier right by 1 (divide by 2 )
+    bnez t1, mul_loop  # if t1 != 0 , mul_loop  
+	
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -203,7 +214,16 @@ classify:
     mv a0, s9 # move h to the first argument
     lw t0, 0(s3)
     lw t1, 0(s8)
-    # mul a1, t0, t1 # length of h array and set it as second argument
+    #mul a1, t0, t1 # length of h array and set it as second argument
+	li   a1, 0           # Initialize a1
+mul_loop_1:
+    andi t2, t1, 1       # check the lsb of multiplier
+    beqz t2, skip_add_1  # if lsb is 0 , skip_add_1
+    add  a1, a1, t0    
+skip_add_1:    
+    slli t0, t0, 1       # Shift multiplicand left by 1 (multiply by 2 )
+    srli t1, t1, 1       # Shift multiplier right by 1 (divide by 2 )
+    bnez t1, mul_loop_1  # if t1 != 0 , mul_loop_1 
     # FIXME: Replace 'mul' with your own implementation
     
     jal relu
@@ -226,7 +246,17 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s6)
-    # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    #mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+	li   a0, 0           # Initialize a0
+mul_loop_3:
+    andi t2, t1, 1       # check the lsb of multiplier
+    beqz t2, skip_add_3  # if lsb is 0 , skip_add_2
+    add  a0, a0, t0    
+skip_add_3:    
+    slli t0, t0, 1       # Shift multiplicand left by 1 (multiply by 2 )
+    srli t1, t1, 1       # Shift multiplier right by 1 (divide by 2 )
+    bnez t1, mul_loop_3  # if t1 != 0 , mul_loop_2 
+	
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -286,7 +316,16 @@ classify:
     mv a0, s10 # load o array into first arg
     lw t0, 0(s3)
     lw t1, 0(s6)
-    mul a1, t0, t1 # load length of array into second arg
+    #mul a1, t0, t1 # load length of array into second arg
+	li   a1, 0           # Initialize a1
+mul_loop_5:
+    andi t2, t1, 1       # check the lsb of multiplier
+    beqz t2, skip_add_5  # if lsb is 0 , skip_add_3
+    add  a1, a1, t0    
+skip_add_5:    
+    slli t0, t0, 1       # Shift multiplicand left by 1 (multiply by 2 )
+    srli t1, t1, 1       # Shift multiplier right by 1 (divide by 2 )
+    bnez t1, mul_loop_5  # if t1 != 0 , mul_loop_3 
     # FIXME: Replace 'mul' with your own implementation
     
     jal argmax
